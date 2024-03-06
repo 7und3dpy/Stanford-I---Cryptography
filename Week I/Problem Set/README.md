@@ -159,81 +159,26 @@ Suppose you are told that the one time pad encryption of the message "attack at 
 **Solution**: 
 
 ```python
-import sys
+def str_to_int(s):
+    return int(s.encode().hex(), 16)
 
-def xor_strings(str_1, str_2):
-    return "".join(chr(ord(chr_1) ^ ord(chr_2)) for (chr_1, chr_2) in zip(str_1, str_2))
 
-if __name__ == "__main__":
-    text_1 = "attack at dawn"
-    encrypt_1 = "6c73d5240a948c86981bc294814d".decode("hex")
-    key = xor_strings(text_1, encrypt_1)
+key = str_to_int("attack at dawn") ^ 0x09e1c5f70a65ac519458e7e53f36
 
-    text_2 = "attack at dusk"
-    encoded_2 = xor_strings(text_2, key)
-    print(encoded_2.encode(hex))
+print(hex(str_to_int("attack at dusk") ^ key))
 ```
 ### Question 8: 
 
-The movie industry wants to protect digital content distributed on
-
-DVD’s. We develop a variant of a method used to protect Blu-ray disks called AACS.
+The movie industry wants to protect digital content distributed on DVD’s. We develop a variant of a method used to protect Blu-ray disks called AACS.
 
 Suppose there are at most a total of $n$ DVD players in the
+world (e.g. $n=2^32$). We view these $n$ players as the leaves of a binary tree of height $log⁡_2n$. Each node in this binary tree contains an AES key $k_i$​. These keys are kept secret from consumers and are fixed for all time. At manufacturing time each DVD player is assigned a serial number $i \in [0,n−1]$. Consider the set of nodes $S_i$​ along the path from the root to leaf number $i$ in the binary tree. The manufacturer of the DVD player embeds in player number ii the keys associated with the nodes in the
+set $S_i$​. A DVD movie $m$ is encrypted as $E(k_{root},k) || E(k,m)$ where $k$ is a random AES key called a content-key and $k_{root}$​ is the key associated with the root of the tree. Since all DVD players have the key $k_root$​ all players can decrypt the movie m. We refer to $E(k_{root},k)$ as the header and $E(k,m)$ as the body. In what follows the DVD header may contain multiple ciphertexts
+where each ciphertext is the encryption of the content-key $k$ under some key kiki​ in the binary tree.
 
-world (e.g. $n=2^32$). We view these $n$ players as the leaves
+Suppose the keys embedded in DVD player number $r$ are exposed by hackers and published on the Internet. In this problem we show that when the movie industry distributes a new DVD movie, they can encrypt the contents of the DVD using a slightly larger header (containing about log⁡2n keys) so that all DVD players, except for player number $r$, can decrypt the movie. In effect, the movie industry disables player number $r$ without affecting other players.
 
-of a binary tree of height $log⁡_2n$. Each node in this binary
-
-tree contains an AES key $k_i$​. These keys are kept secret from
-
-consumers and are fixed for all time. At manufacturing time each DVD
-
-player is assigned a serial number $i \in [0,n−1]$. Consider the
-
-set of nodes $S_i$​ along the path from the root to leaf number $i$
-
-in the binary tree. The manufacturer of the DVD player embeds in
-
-player number ii the keys associated with the nodes in the
-
-set $S_i$​. A DVD movie $m$ is encrypted as
-
-$E(k_{root},k) || E(k,m)$
-
-where $k$ is a random AES key called a content-key and
-
-$k_{root}$​ is the key
-
-associated with the root of the tree. Since all DVD players have the
-
-key $k_root$​ all players can decrypt the movie m. We
-
-refer to $E(k_{root},k)$ as the header and $E(k,m)$ as the
-
-body. In what follows the DVD header may contain multiple ciphertexts
-
-where each ciphertext is the encryption of the content-key $k$ under
-
-some key kiki​ in the binary tree.
-
-Suppose the keys embedded in DVD player number $r$ are exposed
-
-by hackers and published on the Internet. In this problem we show that when the movie industry distributes a new
-
-DVD movie, they can encrypt the contents of the DVD using a slightly
-
-larger header (containing about log⁡2nlog2​n keys) so that all DVD
-
-players, except for player number $r$, can decrypt the movie. In
-
-effect, the movie industry disables player number $r$ without
-
-affecting other players.
-
-As shown below, consider a tree with n=16 leaves. Suppose the leaf node labeled 25 corresponds to an exposed DVD player key. Check the set of keys below under which to encrypt the key $k$ so that every player other
-
-than player 25 can decrypt the DVD. Only four keys are needed.
+As shown below, consider a tree with n=16 leaves. Suppose the leaf node labeled 25 corresponds to an exposed DVD player key. Check the set of keys below under which to encrypt the key $k$ so that every player other than player 25 can decrypt the DVD. Only four keys are needed.
 
 ![alt text](gQBejyaMEeWn-RKFQUXfYw_a6667e9aca0c47393bc407d8ffa3bed1_Screen-Shot-2015-07-09-at-3.32.19-PM.png)
 
@@ -254,6 +199,26 @@ than player 25 can decrypt the DVD. Only four keys are needed.
 - [] 21
 
 **Explaination**: There is a beter solution that does not requiring encrypting on the key of this node. 
+
+Chúng ta thấy rằng những node không thể đi được tới 25: 
+
+- Node 1
+
+- Node 3 
+
+- Node 4
+
+- Node 7
+
+- Node 8
+
+- Node 11
+
+- Node 6
+
+- Node 13
+
+- Node 14
 
 ### Question 9: 
 
