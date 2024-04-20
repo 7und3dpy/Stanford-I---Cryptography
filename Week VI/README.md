@@ -2,11 +2,11 @@ Question 1:
 
 Recall that with symmetric ciphers it is possible to encrypt a 32-bit message and obtain a 32-bit ciphertext (e.g. with the one time pad or with a nonce-based system). Can the same be done witha public-key system?
 
-[( )] Yes, when encrypting a short plaintext the output of the public-key encryption algorithm canbe truncated to the length of the plaintext.
+[ ( ) ] Yes, when encrypting a short plaintext the output of the public-key encryption algorithm canbe truncated to the length of the plaintext.
 
-[( )] It is not possible with the ElGamal system, but may be possible with other systems.
+[ ( ) ] It is not possible with the ElGamal system, but may be possible with other systems.
 
-[(x)] No, public-key systems with short ciphertexts can never be secure.
+[ (x) ] No, public-key systems with short ciphertexts can never be secure.
 
 **Explaination**: 
 
@@ -14,20 +14,20 @@ Ciphertexts that are the same length as their corresponding plaintext are not
 MACed, so they cannot gaurentee authenticated encryption.  Therefore public-key
 systems with "short" ciphertexts can never be secure.
 
-[( )] It is possible and depends on the specifics of the system.
+[ ( ) ] It is possible and depends on the specifics of the system.
 
 
 Question 2: 
 
 Let (Gen,$E,D$) be a semantically secure public-key encryption system. Can algorithm $E$ be deterministic?
 
-[( )] No, but chosen-ciphertext secure encryption can be deterministic.
+[ ( ) ] No, but chosen-ciphertext secure encryption can be deterministic.
 
-[( )] Yes, RSA encryption is deterministic.
+[ ( ) ] Yes, RSA encryption is deterministic.
 
-[(x)] No, semantically secure public-key encryption must be randomized.
+[ (x) ] No, semantically secure public-key encryption must be randomized.
 
-[( )] Yes, some public-key encryption schemes are deterministic.
+[ ( ) ] Yes, some public-key encryption schemes are deterministic.
 
 
 **Explaination**: 
@@ -42,7 +42,7 @@ Question 3:
 
 Let $(Gen,E,D)$ be a chosen ciphertext secure public-key encryption system with message space ${0,1}^128$. Which of the following is also chosen ciphertext secure?
 
-[[ ]] $(Gen,E′,D′)$ where $E′(pk,m) =(E(pk,m),E(pk,m))$ and $D′(sk,(c1,c2))=D(sk,c1)$.
+[ [ ] ] $(Gen,E′,D′)$ where $E′(pk,m) =(E(pk,m),E(pk,m))$ and $D′(sk,(c1,c2))=D(sk,c1)$.
 
 **Explaination**: 
 
