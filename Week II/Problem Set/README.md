@@ -31,6 +31,16 @@ What is the order of these events from most likely to least likely?
 $$(\frac{1}{10^6})^7 < \frac{1}{2^{128}} < (\frac{1}{10^6})^6 < (\frac{1}{10^6})^5 \frac{1}{10^6}$$
 
 
+The events have the following probabilities:
+    1. 2^-128 ~= 10^-38.5
+    2. 10^-6
+    3. 10^-30
+    4. 10^-36
+    5. 10^-42
+
+So the probability order from most to least likely is
+2,3,4,1,5
+
 
 2.
 Question 2
@@ -53,13 +63,14 @@ Suppose an organization wants to run an exhaustive search for a single 128-bit A
 
 #### Explaination
 
-trillion = $10^12$
 
-billion = $10^9$
+At $200 each With 4 trillion = $4*10^12, the orgainization could
+purchase 2*10^10 such machines.  With each machine testing 10^9 keys per second,
+the orgainization could test 2*10^19 ~= 2^64.11 keys/second.
 
-=> We can bruteforce at most $\frac{4 \times 10^12}{200} \times 10^9 = 2 \times 10^10 \times 10^9 = 2\times 10^{19}$ AES keys / second
-
-So number seconds we can find the keys is $\frac{\frac{2^128}{2 \times 10^{19}}}{86400} \appro 8$ days
+There $2^128$ different AES keys. To test all possible keys, it would take
+roughly $2^64$ seconds, which is roughly $5.8*10^11$ years.
+That's more than $10^9$ years.
 
 
 3.
@@ -70,22 +81,22 @@ Let F:{0,1}n×{0,1}n→{0,1}n be a secure PRF (i.e. a PRF where the key space, i
 Which of the following is a secure PRF (there is more than one correct answer):
 1 point
 
-- [[]] F′(k,x)=F(k,x)  ∥  0    
+- [[]] $F′(k,x)=F(k,x)  \oplus  0$    
 
-   (here ∥∥​ denotes concatenation) 
+(here $\oplus$​ denotes concatenation) 
 
 ### Explainatinon: 
 
 Not a PRF. A distinguisher will output not a random whenever the last bit of $F(k, 0^n)$ is 0
 
-- [[]] $F′(k,x)=F(k, x)  ⨁  F(k, x⊕1^n)$
+- [[]] $F′(k,x)=F(k, x)  \oplus  F(k, x \oplus 1^n)$
 
 #### Explaination: 
 
 Not a PRF. A distinguisher will query at $x = 0^n$ and $x = 1^n$ and output not random whenever the two responses are equal. This is unlikely to happen for a truly random function
 
 - [[x]] $F′(k,x)=F(k,x)[0,…,n−2]$
-(i.e., F′(k,x)F′(k,x) drops the last bit of F(k,x)F(k,x))
+(i.e., F′(k,x) drops the last bit of F(k,x)F(k,x))
 
 #### Explaination: 
 
@@ -95,13 +106,16 @@ Correct. A distinguisher for $F'$ gives a distinguisher for $F$.
 
 #### Explaination: 
 
-Not a PRF. A distinguisher will querry at $x = 0^n$ and $x = 1^n$ and output <em>not random</em> if the xor or the response is $1^n$. This is unlikely to hold for a truly random function
+This function is _not secure_ because the adversary can send $m_1 = 0$, then send $m_2 = f(m_1) \oplus X$.  If $b = 0$, he will always get back $X$ and will therefore guess $b = 1$ if he does not. If $b = 1$, he will not get back $X$ and will guess correctly again.  So Adv[A,F] = 1.
 
 - [[x]] $F′((k1,k2), x)=F(k1,x)  \oplus  F(k2,x)$ (here $\oplus$ denotes concatenation)
 
 #### Explaination: 
 
-A distinguisher for $F'$ gives a distinguisher for $F$. 
+This function _is secure_. If there were an adversary A who had an advantage for this function, we could create an adversary B with an advantage for F as follows.
+
+When A sends a message $m_i$, B sends $m_i$.  B takes the response $R$ and sends $R || R$ to A. A has a non-negligible probability of determining whether R
+is random or $F(k, m_i)$.
 
 - [[]] $F′((k1,k2), x)=\begin{cases}F(k1,x) \quad \text{when} x \neq 0^n \\
 k_2 \quad \text{otherwise}\end{cases}​$
@@ -120,7 +134,7 @@ Let $F:K×{0,1}32→{0,1}32$ be a secure PRF.
 
 Recall that a 2-round Feistel defines the following PRP 
 
-F2:K2×{0,1}64→{0,1}64F2​:K2×{0,1}64→{0,1}64:
+F2: K2 ×{0,1}64→{0,1}64F2​:K2×{0,1}64→{0,1}64:
 
 ![alt text](image.png)
 
@@ -156,9 +170,21 @@ Ví dụ:
 
 - 290b6e3a và d6f491c5 ta có 2 = 0010 => Đối của binary là 1101: d...
 
-- 
-Observe that two round Feister has the property that the left half of $F(., 0^64) \xor F(., 1^32 0^32)$ is 1^32. The two outputs in the answer are the only ones with this property
-5.
+
+When the input is 0^64:
+R0 = 0, L0=0
+R1 = F(k1,0), L1=0
+R2 = F(k2, F(k1,0)), L2 = F(k1,0)
+
+When the input is 1^32 || 0^32:
+R0 = 0, L0 = 1
+R1 = 1 xor F(k1, 0), L1 = 0
+R2 = F(k2, 1 xor F(k1, 0)), L2 = 1 xor F(k1, 0)
+
+so the first L2 should be the inverse of the second L2.
+This is the case for the pair _e86..., 179_
+
+
 Question 5
 
 Nonce-based CBC.  Recall that in Lecture 4.4
@@ -176,38 +202,49 @@ Next, the attacker asks for the encryption of the one block message m1=c0⨁c1m1
 What relation holds between c0,c1,c0′c0​,c1​,c0′​?    Note that this relation lets the adversary win the nonce-based CPA game with advantage 1.
 1 point
 
-- [] c0′=c0⨁1ℓ
+- [] $c_0′=c_0 \oplus 1ℓ$
 
-- [] c0=c1⨁c0'
+- [] $c_0=c_1 \oplus c_0'$
 
-- [x] c1=c0′​
+- [x] $c1=c0′​$
 ### Explaination: 
 
-This follows from the definition of CBC with an encrypted nonce as defined in the question
+First, note that
+c0 = F(k, F(k, 0))
+c1 = F(k, F(k, F(k, 0)))
+and that c1 = F(k, c0)
 
-- [] c1=c0​
-6.
+In response to the attacker's request for the encryption of m1=c0 ^ c1 with
+nonce c0, the attacker receives:
+
+nonce |  c'0
+  c0  |  F(k,F(k,c0)^m1) = F(k,F(k,c0)^c0^c1) = F(k,c1^c0^c1) = F(k,c0) = c1
+
+So _c'0 = c1_
+
+- [] $c1=c0$​
+
+
+
 Question 6
 
-Let mm be a message consisting of ℓℓ AES blocks
+Let $m$ be a message consisting of ℓℓ AES blocks
 
 (say ℓ=100ℓ=100).  Alice encrypts mm using CBC mode and transmits
 
 the resulting ciphertext to Bob.  Due to a network error,
 
-ciphertext block number ℓ/2ℓ/2 is corrupted during transmission.
+ciphertext block number $\mathcal{l}/2$ is corrupted during transmission.
 
 All other ciphertext blocks are transmitted and received correctly.
 
-Once Bob decrypts the received ciphertext, how many plaintext blocks
-
-will be corrupted?
-1 point
+Once Bob decrypts the received ciphertext, how many plaintext blocks will be corrupted?
 
 - [x] 2
 
 ### Answer: 
-Take a look at the CBC decryption circuit. Each ciphertext blocks affects only the current plaintext block and the next. 
+If block number l/2 is corrupted, then that block and each block that comes
+after will be corrupted, so _2_ blocks of plaintext will be corrupted.
 
 - [] 0
 
@@ -219,36 +256,33 @@ Take a look at the CBC decryption circuit. Each ciphertext blocks affects only t
 7.
 Question 7
 
-Let mm be a message consisting of ℓℓ AES blocks (say ℓ=100ℓ=100).  Alice encrypts mm using randomized counter mode and
-
-transmits the resulting ciphertext to Bob.  Due to a network error,
-
-ciphertext block number ℓ/2ℓ/2 is corrupted during transmission.
+Let mm be a message consisting of $\math{cal}$ AES blocks (say $\mathcal{l}=100$).  Alice encrypts mm using randomized counter mode and transmits the resulting ciphertext to Bob.  Due to a network error,
+ciphertext block number $\mathcal{l}/2$ is corrupted during transmission.
 
 All other ciphertext blocks are transmitted and received correctly.
 
 Once Bob decrypts the received ciphertext, how many plaintext blocks
 
 will be corrupted?
-1 point
 
 - [x] 1
 
 ### Explaination: 
 
-Take a look at the counter mode decryption circuit. Each ciphertext block affects only the current plaintext block. 
+With ctr, the counter value used to decrypt each block of ciphertext does not depend on the value of any other block.  Therefore with one block corrupted,
+only _1_ block of plaintext will be corrupted. 
 
 - [] 0
 
-- [] ℓ/2ℓ/2
+- [] $\mathcal{l}/2$
 
 - [] 2
 
- 1+ℓ/21+ℓ/2
+- [] $1 + \mathcal{l}/2$
 8.
 Question 8
 
-Recall that encryption systems do not fully hide the length of transmitted messages.  Leaking the length of web requests  hasbeen used  to eavesdrop on encrypted HTTPS traffic to a number of web sites, such as tax preparation sites, Google searches, and healthcare sites.
+Recall that encryption systems do not fully hide the length of transmitted messages. Leaking the length of web requests has been used to eavesdrop on encrypted HTTPS traffic to a number of web sites, such as tax preparation sites, Google searches, and healthcare sites.
 
 Suppose an attacker intercepts a packet where he knows that the packet payload is encrypted using AES in CBC mode with a random IV.  The encrypted packet payload is 128 bytes.  Which of the following messages is plausibly the decryption of the payload:
 1 point
@@ -257,7 +291,18 @@ Suppose an attacker intercepts a packet where he knows that the packet payload i
 
 ### Explaination: 
 
-The length of the string is 107 bytes, which after padding becomes 112 bytes, and after prepending the IV becomes 128 bytes. 
+The strings have length:
+
+'If qual...' -> 124
+'The sig...' -> 165
+'In this...' -> 108
+'To cons...' -> 221
+
+Each character is encoded to one byte. The messages of length 165 and 221
+are too big to encrypt to 128 bytes.  The message of length 124 could not have
+been encrypted to 128 bytes because the IV requires 16 bytes to send.
+
+So the message of length 108 encrypted to 124 bytes, with 4 bytes of padding.
 
 - [] 125: The significance of this general conjecture, assuming its truth, is
 
@@ -265,9 +310,7 @@ easy to see. It means that it may be feasible to design ciphers that
 
 are effectively unbreakable.'
 
-- [] 89: The most direct computation would be for the enemy to try 
-
- all 2^r possible keys, one by one.'
+- [] 89: The most direct computation would be for the enemy to try all $2^r$ possible keys, one by one.'
 
 - [] 109: If qualified opinions incline to believe in the exponential
 
@@ -285,9 +328,9 @@ Bản mã là 128 bytes
 - 89 
 Question 9
 
-Let R:={0,1}4R:={0,1}4 and consider the following PRF F:R5×R→RF:R5×R→R defined as follows:
+Let $R:={0,1}^4$ and consider the following PRF $F:R^5 \times R \Rightarrow R$ defined as follows:
 
-F(k,x):={t=k[0] for i=1 to 4 doif (x[i−1]==1)t=t⊕k[i] output tF(k,x):=⎩⎪⎪⎪⎨⎪⎪⎪⎧​t=k[0] for i=1 to 4 doif (x[i−1]==1)t=t⊕k[i] output t​ 
+$F(k,x):=\begin{cases}t=k[0] for i=1 to 4 doif (x[i−1]==1)t=t⊕k[i] output tF(k,x):=⎩⎪⎪⎪⎨⎪⎪⎪⎧​t=k[0] for i=1 to 4 do \\ if (x[i−1]==1)t=t \oplus k[i]\\ output t​$ 
 
 That is, the key is k=(k[0],k[1],k[2],k[3],k[4])k=(k[0],k[1],k[2],k[3],k[4]) in R5R5 and the function at, for example, 01010101 is defined as F(k,0101)=k[0]⊕k[2]⊕k[4]F(k,0101)=k[0]⊕k[2]⊕k[4].
 
@@ -300,4 +343,13 @@ What is the value of F(k,1101)F(k,1101)?        Note that since you are able to 
 
 ### Answer: 
 
-1111
+We are given to following.
+k[0]^k[2]^k[3] = 0011
+k[0]^k[2]^k[4] = 1010
+k[0]^k[1]^k[2]^k[3] = 0110
+
+
+We aim to find k[0]^k[1]^k[2]^k[4].
+
+k[0]^k[1]^k[2]^k[4] = 0110^k[3]^k[4] = 0110^1010^k[0]^k[2]^k[3]
+= 0110^1010^0011 = _1111_

@@ -98,11 +98,23 @@ Question 6: Let $H: M \Rightarrow T$ be a collision resistant hash function. Whi
 
 - [[x]] $H'(m) = H(m||0)$
 
-**Explaination**: a collision finder for $H'$ gives a collision finder for $H$
+**Explaination**: 
+
+If $H'(m) = H'(m'), then $H(m || 0) = H(m' || 0)$$, and we have a collision $(x || 0, x' || 0)$ for $H$. Therefore, $H'$ is collision resistant
 
 - [[]] $H'(m) = H(m) \oplus H(m \oplus 1^{|m|})$
 
-**Explaination**: This construction is not collision resistant because $H(000) = H(111)$
+**Explaination**: 
+
+This construction is not collision resistant because $H(000) = H(111)$
+
+- Preimage resistance: given $y$, it is computationally infeasible to find an $x$ such that $H(x) = y$.
+
+- Second preimage resistance: given $x$, it is computationally infeasible to find an $x' \neq x$ such that $H(x) = H(x′)$
+
+- Collision resistance: it is computationally infeasible to find $x,x′$ such that $x \neq x′$ and $H(x) = H(x′)$.
+
+Given $m$, let $m' = m \oplus 1^|x|$. Then $H'(x') = H(x \oplus 1^{|x|}) \oplus H(x) = H'(x)$. Therefore, $H'$ is not second preimage resistant and thus also not collision resistant.
 
 - [[]] $H'(m) = H(m[0,...,|m| - 2])$
 
@@ -110,13 +122,21 @@ Question 6: Let $H: M \Rightarrow T$ be a collision resistant hash function. Whi
 
 - [[]] $H'(m) = H(0)$
 
-**Explaination**: This construction is not collision resistant because $H(0) = H(1)$
+**Explaination**: 
+
+This construction is not collision resistant because $H(0) = H(1)$
+
+Constant function, not collision resistant.
 
 - [[]] $H'(m) = H(m)[0,...,31]$
 
 (i.e, output the first 32 bits of the hash)
 
-- [[]] $H'(m) = H(m) || H(m)$
+**Explaination**: 
+
+By the birthday attack, we can find a collision in $O(2^{n′/2})$ time. Since $n′=32$, this gives us $O(2^16)$ computations - this can done efficiently, so $H′$ is not collision resistant.
+
+- [[]] $H'(m) = H(m) \oplus H(m)$
 
 **Explaination**: This construction is not collision resistant because $H(0) = H(1)$
 

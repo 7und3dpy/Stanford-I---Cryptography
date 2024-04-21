@@ -312,9 +312,9 @@ What is the bound ondfor Wiener’s attack when $N$ is a product of three equal 
 
 [( )] $d < N^{1/4}/c$ for some constant c.
 
-[( )] $d < $N^{1/2}/c$ for some constant c.
+[( )] $d < N^{1/2}/c$ for some constant c.
 
-[( )] $d < N^{2/3}/c$ for some constant c.$
+[( )] $d < N^{2/3}/c$ for some constant c.
 
 **Explaination**: 
 

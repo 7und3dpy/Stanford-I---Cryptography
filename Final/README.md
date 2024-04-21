@@ -6,7 +6,9 @@ Let $(E, D)$ be an authenticated encryption system built by combining a CPA-secu
 
 - [(x)] Encrypt and then apply the error correction code.
 
-**Explaination**: Error correcting codes are designed to be tolerant against random changes during transmission.  If the ECC encoding is permuted randomly by an ncryption function, it won't work correctly.
+**Explaination**: 
+
+Error correcting codes are designed to be tolerant against random changes during transmission.  If the ECC encoding is permuted randomly by an encryption function, it won't work correctly.
 
 Even more importantly, decryption needs an error free input to work effectively.  If a system tries to decrypt an erroneous ciphertext, the resulting pre-ECC plaintext will be meaningless.
 
@@ -278,7 +280,7 @@ The final group key should be $g^b$. Clearly Party $B$ can compute this group ke
 
 - [()] Party $A_i$ computes $g^b$ as $Y_i^{−1/a_i}
 
-**Explaination**: Each party $A_i$ has access to the values ai and of course $X_i = g^a_i$ and $Y_i =
+**Explaination**: Each party $A_i$ has access to the values $a_i$ and of course $X_i = g^a_i$ and $Y_i =
 X_i^b = g^{ba_i}$.  $A_i$ can therefore compute $g^b$ as
 $(g^{ba_i}) ^ 1/a^i = X_i^b ^ 1/a_i = Y_i^{1/a_i}$
 

@@ -117,11 +117,11 @@ then decrypts $E(pk', x)$ to determine $x$, computes $E(pk, x)$, and sends $(E(p
 
 Question 5
 
-The numbers 7and 23 are relatively prime and therefore there must exist integers $a$ and $b$ such that $7a+23b = 1$. Find such a pair of integers $(a,b)$ with the smallest possible $a > 0$. Given this pair, can you determine the inverse of 7 in $\Z_{23}$ ?
+The numbers $7$ and $23$ are relatively prime and therefore there must exist integers $a$ and $b$ such that $7a+23b = 1$. Find such a pair of integers $(a,b)$ with the smallest possible $a > 0$. Given this pair, can you determine the inverse of 7 in $\Z_{23}$ ?
 
 **Explaination**: 
 
-Using some simple python, we see that $(a,b) = (10,-3)$
+Using some simple calculator, we see that $(a,b) = (10,-3)$
 
 In $Z_{23}, 7a + 23b = 7a$ and $1 = 1$.
 So $7a = 1$, or _7^-1 = 10_
@@ -146,8 +146,8 @@ How many elements are there in $Z^∗_35$?
 **Explaination**: 
 
 
-We aim to find |Z*_35|
-Since 35 = 7*5, |Z*_35| = 35 - 7 - 5 + 1 = 24
+We aim to find $|Z^*_35|$
+Since $35 = 7*5$, $|Z^*_35| = 35 - 7 - 5 + 1 = 24$
 
 Question 8
 How much is $2^10001 \mod 11$? (please do not use a calculator for this)
