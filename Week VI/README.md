@@ -11,7 +11,7 @@ Recall that with symmetric ciphers it is possible to encrypt a 32-bit message an
 **Explaination**: 
 
 Ciphertexts that are the same length as their corresponding plaintext are not
-MACed, so they cannot gaurentee authenticated encryption.  Therefore public-key
+MACed, so they cannot gaurentee authenticated encryption. Therefore public-key
 systems with "short" ciphertexts can never be secure.
 
 [ ( ) ] It is possible and depends on the specifics of the system.
@@ -127,9 +127,12 @@ As a first step, show that Alice can use her public key $(N,3)$ and private key 
 **Explaination**: 
 
 Alice aims to find an integer multiple of phi(N).  She knows that
-3*da mod phi(N) = 1
-3*da = k*phi(N) + 1
-3*da - 1 = k*phi(N)
+
+3*d_a mod phi(N) = 1
+
+3*d_a = k*phi(N) + 1
+
+3*d_a - 1 = k*phi(N)
 
 So (3*da - 1) is an integer multiple of phi(N).
 
@@ -298,7 +301,6 @@ $B_2 = (A_2/g^b)^r * A_0^s = g^(r(xy+a-b) + sx)$
 So considering the exponents
 B1^x = rxy + sx
 B2 = rxy + (ra - rb) + sx
-
 If a == b then 
 $B_2/B_1^x = rxy + (0) + sx - rxy - sx = 0$ in the exponent
 

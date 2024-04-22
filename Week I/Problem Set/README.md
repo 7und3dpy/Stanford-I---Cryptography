@@ -100,7 +100,7 @@ How should the bank assign pieces so that any two pieces enable decryption using
 
 - [] $p_1=(k_1,k_2),p_2=(k_1^\prime,k_2),p_3=(k_2^\prime)$
 
-**Explaination**: executives 2 and 3 can not decrypt
+**Explaination**: exec  utives 2 and 3 can not decrypt
 
 ### Question 5:
 
@@ -116,7 +116,7 @@ Does this cipher has perfect secrecy ?
 
 - [] No, only the One Time Pad has perfect secrecy 
 
-- [] Yes
+- [x] Yes
 
 **Explaination**: as with the one-time pad, there is exactly one key mapping a given message m to a given ciphertext c
 
